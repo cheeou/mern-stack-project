@@ -1,57 +1,90 @@
-const {MongoClient} = require('mongodb');
+const { MongoClient } = require('mongodb');
 const uri = `mongodb://localhost:27017`;
 const client = new MongoClient(uri);
 
-async function run (){
-    try {
-        const database = client.db('firstDB');
-        const movies = database.collection('movies');
+async function run() {
     
-        // const query = { title: 'Back to the Future'};
-        const movieList = [         
-            { title: 'The Shawshank Redemption' },
-            { title: 'Inception' },
-            { title: 'Pulp Fiction' },
-            { title: 'The Godfather' },
-            { title: 'Forrest Gump' }
-        ];
+        const database = client.db('secondDB'); 
+        const inventory = database.collection('inventory');
 
-        // const movie = await movies.insertOne(query);
-
-        // const movie = await movies.insertMany(movieList);
-        // console.log('my favorite of movies', movie);
-
-        // const findOneMovie = await movies.findOne({ title: "Inception"});
+        // const query = { item: 'canvas',  qty: 100,  tags: ['cotton'],  size: { h: 28, w: 35.5, uom: 'cm' } };
+        // const execute = inventory.insertOne(query);
         
+        // const query = [
+        //     {
+        //         item: 'journal',
+        //         qty: 25,
+        //         tags: ['blank', 'red'],
+        //         size: { h: 14, w: 21, uom: 'cm' }
+        //     },
+        //     {
+        //         item: 'mat',
+        //         qty: 85,
+        //         tags: ['gray'],
+        //         size: { h: 27.9, w: 35.5, uom: 'cm' }
+        //     },
+        //     {
+        //         item: 'mousepad',
+        //         qty: 25,
+        //         tags: ['gel', 'blue'],
+        //         size: { h: 19, w: 22.85, uom: 'cm' }
+        //     }
+        // ];
+        // const execute = inventory.insertMany(query);
 
-        // const findOneMovie = await movies.find({});
-        // const findOneMovie = await movies.find({}).toArray();
-        // console.log(findOneMovie);
+        // const execute = await inventory.find({}).toArray();
+        // const execute = await inventory.find({}).project({ _id:0 }).toArray();
+        // console.log(execute);
 
+        // const execute = await inventory.deleteMany({});
 
-        // const findByTitle = await movies.find({ title: { $regex: "inception", $options: "i"} }).toArray(); // reget pattern, case-insensitive options 
-        // console.log(findByTitle);
+        // const query = [
+        //     {
+        //         item: 'journal',
+        //         qty: 25,
+        //         size: { h: 14, w: 21, uom: 'cm' },
+        //         status: 'A'
+        //     },
+        //     {
+        //         item: 'notebook',
+        //         qty: 50,
+        //         size: { h: 8.5, w: 11, uom: 'in' },
+        //         status: 'A'
+        //     },
+        //     {
+        //         item: 'paper',
+        //         qty: 100,
+        //         size: { h: 8.5, w: 11, uom: 'in' },
+        //         status: 'D'
+        //     },
+        //     {
+        //         item: 'planner',
+        //         qty: 75,
+        //         size: { h: 22.85, w: 30, uom: 'cm' },
+        //         status: 'D'
+        //     },
+        //     {
+        //         item: 'postcard',
+        //         qty: 45,
+        //         size: { h: 10, w: 15.25, uom: 'cm' },
+        //         status: 'A'
+        //     }
+        // ];
         
-        // 업데이트시 매칭되는 필드가 없으면 생셩됨
-        // const updateByTitle = await movies.updateOne( 
-        //     { title: "Forrest Gump"},
-        //     { $set: { title: "WHITE CHICKS"}}
-        // );
-        // console.log(updateByTitle);
+        // const execute = inventory.insertMany(query);
 
-        // const deleteMovie = await movies.deleteOne({ title: 'WHITE CHICKS'});
-        // console.log(deleteMovie);
+        // const execute = await inventory.find({ status : 'D'}).project({ _id: 0}).toArray();
+        // const execute = await inventory.find({ status : 'A', qty : 50}).project({ _id: 0}).toArray();
+        // const execute = await inventory.find({ status : 'A' || 'B'}).project({ _id: 0}).toArray();
+        // const execute = await inventory.find({ status : 'A', qty : { $lt : 30 }}).project({ _id: 0}).toArray();
+        // const execute = await inventory.find({ status : 'A'} || {qty : { $lt : 30}}).project({ _id: 0}).toArray();
 
-        const movieData = await movies
-            .find({ title: 'Inception'})
-            .project({ title: 1, _id: 0 })
-            .toArray();
+        // 중첩 필드 따옴표
+        // const execute = await inventory.find({ "size.uom" : 'in'}).project({ _id: 0}).toArray(); 
+        // const execute = await inventory.find({ "size.h" : { $gt : 10}}).project({ _id: 0}).toArray();
 
-        console.log(movieData);
+        // console.log(execute);
 
-    } finally {
-        // db 실행 완료 || 에러 발생시 클라이언트가 닫힘
-        await client.close();
-    }
 }
+
 run();
